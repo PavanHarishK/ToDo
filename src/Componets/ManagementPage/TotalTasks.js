@@ -1,23 +1,25 @@
-// import React from 'react'
+import React from 'react'
 
-// const TotalTasks= ({inputs})=> {
 
-//     if (!inputs || inputs.length === 0){
-//         return null
-//     }
+const TotalTasks = ({ inputs }) => {
 
-//   return (
-//     <div>
-//     {inputs.length >= 0 (
-//         inputs.map((input)=>(
-//             <div>
-//             <h5>{input.title}</h5>
-//             <h5>{input.time}</h5>
-//             </div>
-//         ))
-//   )}
-//     </div>
-//   )
-// }
+    if (!inputs || inputs.length === 0) {
+        return null
+    }
 
-// export default TotalTasks
+    function calculateNewValue() {
+        let sum = 0;
+        inputs.forEach(i => sum += parseInt(i.time))
+        return sum;
+    }
+
+    return (
+        <div>
+            <div>Total tasks : {inputs.length}</div>
+            <div>Total Days : {calculateNewValue() / 8}</div>
+            <div>Total Hours : {calculateNewValue()}</div>
+        </div>
+    )
+}
+
+export default TotalTasks

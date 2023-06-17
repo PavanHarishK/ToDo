@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import FormsNewInputs from "./FormsNewInputs";
+import TotalTasks from "../ManagementPage/TotalTasks";
 
 
 const TaskInputForm = () => {
   const [title, setTitle] = useState("");
   const [time, setTime] = useState("");
   const [inputs, setInputs] = useState([]);
-  const [tHours, setTotalHours] = useState([]);
 
   useEffect(() => {
     localStorage.setItem("inputs", JSON.stringify(inputs));
@@ -19,17 +19,13 @@ const TaskInputForm = () => {
       title: title,
       time: time,
     };
-    if(parseInt(newInputs.time) > 24 || parseInt(newInputs.time) === 0 ){
+    if (parseInt(newInputs.time) > 24 || parseInt(newInputs.time) === 0) {
       alert(`Please enter time input as 24 hours`);
       return;
-    } 
+    }
     setInputs([...inputs, newInputs]);
     setTitle("");
     setTime("");
-    let sum =parseInt(newInputs.time); 
-    inputs.forEach(i => sum += parseInt(i.time))
-    console.log(sum);
-      setTotalHours(sum);
   };
 
   //delete handler
@@ -51,9 +47,7 @@ const TaskInputForm = () => {
   return (
 
     <div>
-      <div>Total tasks : {inputs.length}</div>
-      <div>Total Days : {tHours / 8}</div>
-      <div>Total Hours : {tHours}</div>
+      {inputs.length > 0 && (<TotalTasks inputs={inputs} onDelete={deleteHandler} />)}
       <h3>Input Data</h3>
       <div>
         <div>
