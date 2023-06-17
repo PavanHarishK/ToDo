@@ -6,6 +6,7 @@ const TaskInputForm = () => {
   const [title, setTitle] = useState("");
   const [time, setTime] = useState("");
   const [inputs, setInputs] = useState([]);
+  const [tHours, setTotalHours] = useState([]);
 
   useEffect(() => {
     localStorage.setItem("inputs", JSON.stringify(inputs));
@@ -18,15 +19,23 @@ const TaskInputForm = () => {
       title: title,
       time: time,
     };
+    if(parseInt(newInputs.time) > 24 || parseInt(newInputs.time) === 0 ){
+      alert(`Please enter time input as 24 hours`);
+      return;
+    } 
     setInputs([...inputs, newInputs]);
     setTitle("");
     setTime("");
+    let sum =parseInt(newInputs.time); 
+    inputs.forEach(i => sum += parseInt(i.time))
+    console.log(sum);
+      setTotalHours(sum);
   };
 
   //delete handler
-  const deleteHandler =(index)=>{
+  const deleteHandler = (index) => {
     const updatedInputs = [...inputs];
-    updatedInputs.splice(index,1);
+    updatedInputs.splice(index, 1);
     setInputs(updatedInputs)
   }
 
@@ -38,9 +47,13 @@ const TaskInputForm = () => {
   const timeSubmitHandler = (event) => {
     setTime(event.target.value);
   };
-  console.log(inputs)
+  // console.log(inputs)
   return (
+
     <div>
+      <div>Total tasks : {inputs.length}</div>
+      <div>Total Days : {tHours / 8}</div>
+      <div>Total Hours : {tHours}</div>
       <h3>Input Data</h3>
       <div>
         <div>
@@ -67,7 +80,7 @@ const TaskInputForm = () => {
               <button type="submit">Add</button>
             </div>
           </form>
-          {inputs.length >0 && (<FormsNewInputs inputs={inputs} onDelete={deleteHandler}/> )}
+          {inputs.length > 0 && (<FormsNewInputs inputs={inputs} onDelete={deleteHandler} />)}
         </div>
       </div>
     </div>
